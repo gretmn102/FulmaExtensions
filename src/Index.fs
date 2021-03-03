@@ -9,13 +9,10 @@ open Fulma.Extensions
 type State =
     {
         InputTagsState: InputTags.State
-        Tags: string list
-        InputTag: string
-
         TagsSuggestions: string []
     }
 type Msg =
-    | SetState of State
+    | SetInputTagsState of InputTags.State
     | GetSuggestions of string
 
 let tagsSuggestions =
@@ -60,17 +57,15 @@ let init () =
     let state =
         {
             InputTagsState = InputTags.State.Empty
-
-            Tags = []
-            InputTag = ""
-
             TagsSuggestions = tagsSuggestions
         }
     state, Cmd.none
 
 let update (msg: Msg) (state: State) =
     match msg with
-    | SetState state ->
+    | SetInputTagsState inputTagsState ->
+        let state =
+            { state with InputTagsState = inputTagsState }
         state, Cmd.none
     | GetSuggestions pattern ->
         let state =
@@ -90,42 +85,12 @@ open Fable.FontAwesome
 
 let containerBox (state : State) (dispatch : Msg -> unit) =
     Box.box' [] [
-        state.Tags
-        |> InputTags.inputTags
+        InputTags.inputTags
             "inputTagsId"
-            state.InputTagsState
-            (fun tag ->
-                { state with
-                    Tags = state.Tags |> List.filter ((<>) tag)
-                }
-                |> SetState
-                |> dispatch
-            )
-            (fun st ->
-                { state with InputTagsState = st }
-                |> SetState
-                |> dispatch
-
-                st.CurrentTag
-                |> GetSuggestions
-                |> dispatch
-            )
-            (fun (st, tag) ->
-                { state with
-                    InputTagsState = st
-                    Tags =
-                        List.foldBack
-                            (fun x st ->
-                                if x = tag then st
-                                else x::st
-                            )
-                            state.Tags
-                            [tag]
-                }
-                |> SetState
-                |> dispatch
-            )
+            (SetInputTagsState >> dispatch)
+            (GetSuggestions >> dispatch)
             state.TagsSuggestions
+            state.InputTagsState
     ]
 
 let navBrand =

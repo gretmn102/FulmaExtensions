@@ -13,12 +13,16 @@ type State =
         CurrentTag: string
         IsActive: bool
         SelectedTag: int
+        Tags: string list
+        InputTag: string
     }
     static member Empty =
         {
             CurrentTag = ""
             IsActive = false
             SelectedTag = -1
+            Tags = []
+            InputTag = ""
         }
 
 let dropdown state addTag changeState items =
@@ -107,7 +111,7 @@ let dropdown state addTag changeState items =
             ]
         ]
     ]
-let inputTags (inputId:string) (state:State) removeTag changeState addTag suggestions tags =
+let inputTags (inputId:string) setInputTagsState getSuggestions suggestions (state:State) =
     let createTag (name:string) =
         Html.div [
             prop.className [
@@ -138,7 +142,10 @@ let inputTags (inputId:string) (state:State) removeTag changeState addTag sugges
                                 Bulma.IsDelete
                             ]
                             prop.onClick (fun _ ->
-                                removeTag name
+                                { state with
+                                    Tags = state.Tags |> List.filter ((<>) name)
+                                }
+                                |> setInputTagsState
                             )
                         ]
                     ]
@@ -146,6 +153,22 @@ let inputTags (inputId:string) (state:State) removeTag changeState addTag sugges
             ]
         ]
     let inputFieldId = "inputFieldId"
+    let changeState state =
+        state |> setInputTagsState
+        state.CurrentTag |> getSuggestions
+    let addTag (state, tag) =
+        { state with
+            Tags =
+                List.foldBack
+                    (fun x st ->
+                        if x = tag then st
+                        else x::st
+                    )
+                    state.Tags
+                    [tag]
+        }
+        |> setInputTagsState
+
     Html.div [
         prop.id inputFieldId
         prop.className [
@@ -172,7 +195,7 @@ let inputTags (inputId:string) (state:State) removeTag changeState addTag sugges
             )
 
         prop.children [
-            yield! Seq.map createTag tags
+            yield! Seq.map createTag state.Tags
 
             Html.div [
                 prop.className [
