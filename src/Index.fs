@@ -9,11 +9,11 @@ open Fulma.Extensions
 type State =
     {
         InputTagsState: InputTags.State
-        TagsSuggestions: string []
+        TagsSuggestions: string Set
     }
 type Msg =
-    | SetInputTagsState of InputTags.State
-    | GetSuggestions of string
+    | SetInputTagsState of InputTags.Msg
+    | Submit
 
 let tagsSuggestions =
     [|
@@ -56,28 +56,48 @@ let tagsSuggestions =
 let init () =
     let state =
         {
-            InputTagsState = InputTags.State.Empty
-            TagsSuggestions = tagsSuggestions
+            InputTagsState = InputTags.init()
+            TagsSuggestions = Set tagsSuggestions
         }
     state, Cmd.none
 
+let getTagSuggestionsFromServer (state:State) pattern  =
+    async {
+        do! Async.Sleep 250
+
+        return
+            if pattern = "" then
+                [||]
+            else
+                state.TagsSuggestions
+                |> Seq.filter (fun x -> x.Contains pattern)
+                |> Array.ofSeq
+    }
+
 let update (msg: Msg) (state: State) =
     match msg with
-    | SetInputTagsState inputTagsState ->
+    | SetInputTagsState msg ->
+        let inputTagsState, cmd =
+            InputTags.update (getTagSuggestionsFromServer state) msg state.InputTagsState
         let state =
-            { state with InputTagsState = inputTagsState }
-        state, Cmd.none
-    | GetSuggestions pattern ->
+            { state with
+                InputTagsState = inputTagsState
+            }
+        let cmd = Cmd.map SetInputTagsState cmd
+        state, cmd
+    | Submit ->
         let state =
             { state with
                 TagsSuggestions =
-                    if pattern = "" then
-                        tagsSuggestions
-                    else
-                        tagsSuggestions
-                        |> Array.filter (fun x -> x.Contains pattern)
-                }
+                    state.InputTagsState.InputTagsState.Tags
+                    |> List.fold
+                        (fun st x ->
+                            Set.add x st
+                        )
+                        state.TagsSuggestions
+            }
         state, Cmd.none
+
 open Fable.React
 open Fable.React.Props
 open Fulma
@@ -85,12 +105,20 @@ open Fable.FontAwesome
 
 let containerBox (state : State) (dispatch : Msg -> unit) =
     Box.box' [] [
-        InputTags.inputTags
-            "inputTagsId"
-            (SetInputTagsState >> dispatch)
-            (GetSuggestions >> dispatch)
-            state.TagsSuggestions
-            state.InputTagsState
+        InputTags.view state.InputTagsState (SetInputTagsState >> dispatch)
+
+        Button.button [
+            let isDisabled =
+                List.isEmpty state.InputTagsState.InputTagsState.Tags
+
+            Button.Disabled isDisabled
+            Button.OnClick (fun _ ->
+                if not isDisabled then
+                    dispatch Submit
+            )
+        ] [
+            str "Submit"
+        ]
     ]
 
 let navBrand =
