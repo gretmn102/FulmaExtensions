@@ -10,11 +10,13 @@ type State =
     {
         InputTagsState: InputTags.State
         TagsSuggestions: string Set
+        InputWithSuggestions: InputWithSuggestions.State
     }
 type Msg =
     | SetInputTagsState of InputTags.Msg
     | Submit
-
+    | SetInputWithSuggestions of InputWithSuggestions.Msg
+    | Submit2 of string
 let tagsSuggestions =
     [|
         "Bunk House"
@@ -57,6 +59,7 @@ let init () =
     let state =
         {
             InputTagsState = InputTags.init()
+            InputWithSuggestions = InputWithSuggestions.init ""
             TagsSuggestions = Set tagsSuggestions
         }
     state, Cmd.none
@@ -98,6 +101,23 @@ let update (msg: Msg) (state: State) =
             }
         state, Cmd.none
 
+    | SetInputWithSuggestions msg ->
+        let inputWithSuggestionsState, cmd =
+            InputWithSuggestions.update (getTagSuggestionsFromServer state) msg state.InputWithSuggestions
+        let state =
+            { state with
+                InputWithSuggestions = inputWithSuggestionsState
+            }
+        let cmd = Cmd.map SetInputWithSuggestions cmd
+        state, cmd
+    | Submit2 sug ->
+        let state =
+            { state with
+                TagsSuggestions =
+                    Set.add sug state.TagsSuggestions
+            }
+        state, Cmd.none
+
 open Fable.React
 open Fable.React.Props
 open Fulma
@@ -105,19 +125,24 @@ open Fable.FontAwesome
 
 let containerBox (state : State) (dispatch : Msg -> unit) =
     Box.box' [] [
-        InputTags.view state.InputTagsState (SetInputTagsState >> dispatch)
+        Box.box' [] [
+            InputTags.view state.InputTagsState (SetInputTagsState >> dispatch)
 
-        Button.button [
-            let isDisabled =
-                List.isEmpty state.InputTagsState.InputTagsState.Tags
+            Button.button [
+                let isDisabled =
+                    List.isEmpty state.InputTagsState.InputTagsState.Tags
 
-            Button.Disabled isDisabled
-            Button.OnClick (fun _ ->
-                if not isDisabled then
-                    dispatch Submit
-            )
-        ] [
-            str "Submit"
+                Button.Disabled isDisabled
+                Button.OnClick (fun _ ->
+                    if not isDisabled then
+                        dispatch Submit
+                )
+            ] [
+                str "Submit"
+            ]
+        ]
+        Box.box' [] [
+            InputWithSuggestions.view "Tag" (Submit2 >> dispatch) state.InputWithSuggestions (SetInputWithSuggestions >> dispatch)
         ]
     ]
 
