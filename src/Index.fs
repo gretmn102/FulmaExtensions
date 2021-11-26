@@ -58,7 +58,7 @@ let tagsSuggestions =
 let init () =
     let state =
         {
-            InputTagsState = InputTags.init()
+            InputTagsState = InputTags.init ["Shrine"]
             InputWithSuggestions = InputWithSuggestions.init ""
             TagsSuggestions = Set tagsSuggestions
         }

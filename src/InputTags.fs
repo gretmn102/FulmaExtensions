@@ -16,12 +16,12 @@ module View =
             SelectedTag: int
             Tags: string list
         }
-        static member Empty =
+        static member Init tags =
             {
                 CurrentTag = ""
                 IsActive = false
                 SelectedTag = -1
-                Tags = []
+                Tags = tags
             }
 
     let dropdown state addTag changeState items =
@@ -351,10 +351,10 @@ type Msg =
     | SetInputTagsState of View.State
     | GetSuggestions of string
     | GetSuggestionsResult of string []
-let init () =
+let init tags =
     let state =
         {
-            InputTagsState = View.State.Empty
+            InputTagsState = View.State.Init tags
             TagsSuggestions = HasNotStartedYet
         }
     state
