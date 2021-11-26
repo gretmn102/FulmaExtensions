@@ -1,13 +1,9 @@
 Fable.Core
-Fable.Promise
-Fable.Fetch
 Fable.Browser.Dom
-Thoth.Json
-Fable.Elmish
 Fable.React
-Feliz
+Fable.Elmish
 Fable.Elmish.React
-Fable.SimpleHttp
+Feliz
 Zanaptak.TypedCssClasses
 Fable.FontAwesome.Free
 Fable.Browser.Navigator
