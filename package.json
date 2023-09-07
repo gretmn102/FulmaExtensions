@@ -1,20 +1,28 @@
 {
   "private": true,
   "scripts": {
-    "postinstall": "dotnet tool restore",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server"
+    "mkdist": "mkdir dist",
+    "postinstall": "npm run dotnet:install && mkdist",
+    "dotnet:install": "dotnet tool restore && dotnet paket install",
+    "dotnet:clean": "dotnet clean",
+    "dotnet:deploy": "npm run dotnet:install && npm run dotnet:clean && dotnet build",
+    "fable:clean": "dotnet fable clean -o dist --yes",
+    "fable:build": "dotnet fable src/FulmaExtensions.fsproj -o dist",
+    "fable:deploy": "npm run dotnet:clean && npm run fable:clean && npm run fable:build",
+    "fable:watch": "npm run fable:build -- --watch",
+    "vite:watch": "vite",
+    "vite:build": "vite build",
+    "dev": "concurrently \"npm:*:watch\"",
+    "deploy": "npm run fable:deploy && npm run vite:build"
   },
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "bulma": "^0.9.3",
+    "bulma-checkradio": "^2.1.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.17",
-    "fable-compiler": "^2.13.0",
-    "fable-loader": "^2.1.8",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.2"
+    "concurrently": "^8.2.1",
+    "vite": "^4.4.9"
   }
 }
