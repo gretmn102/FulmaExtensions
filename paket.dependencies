@@ -9,5 +9,4 @@ nuget Fable.Browser.Dom
 nuget Fable.React
 nuget Feliz
 nuget Fulma
-nuget Fulma.Extensions.Wikiki.Checkradio
 nuget Zanaptak.TypedCssClasses
