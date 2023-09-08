@@ -1,16 +1,11 @@
 # FulmaExtensions
 ## Build
 
+### Run examples
 ```batch
 dotnet tool restore
-paket install
+dotnet paket install
+cd examples
 npm install
-
-cd src
-dotnet restore
-cd ../
-
-npm start
+npm run dev
 ```
-
-And open http://localhost:8080/ in your browser.

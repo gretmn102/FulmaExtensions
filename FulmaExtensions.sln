@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FulmaExtensions", "src\FulmaExtensions.fsproj", "{45FCA404-E9DB-48A7-8C26-36F0033B3580}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{ACC64A0C-D6FB-422C-8174-E13188A0D115}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ExampleProject", "examples\src\ExampleProject.fsproj", "{F3DEB622-9ADC-4431-AC19-6208E1FE6DC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,12 @@ Global
 		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3DEB622-9ADC-4431-AC19-6208E1FE6DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3DEB622-9ADC-4431-AC19-6208E1FE6DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3DEB622-9ADC-4431-AC19-6208E1FE6DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3DEB622-9ADC-4431-AC19-6208E1FE6DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F3DEB622-9ADC-4431-AC19-6208E1FE6DC4} = {ACC64A0C-D6FB-422C-8174-E13188A0D115}
 	EndGlobalSection
 EndGlobal
