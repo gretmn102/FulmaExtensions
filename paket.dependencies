@@ -11,3 +11,15 @@ nuget Fable.React
 nuget Feliz
 nuget Fulma
 nuget Zanaptak.TypedCssClasses
+
+group Build
+    strategy: min
+    source https://api.nuget.org/v3/index.json
+    framework: netstandard2.0
+    storage: none
+
+    nuget FSharp.Core < 6
+    nuget Fake.Core.ReleaseNotes < 6
+    nuget Fake.Core.Target < 6
+    nuget Fake.DotNet.Cli < 6
+    nuget Fake.IO.FileSystem < 6

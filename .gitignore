@@ -394,3 +394,4 @@ paket-files/
 
 /public/bundle.js
 /deploy
+/Directory.Build.props

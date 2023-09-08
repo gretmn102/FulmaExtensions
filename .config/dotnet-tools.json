@@ -19,6 +19,12 @@
       "commands": [
         "femto"
       ]
+    },
+    "fake-cli": {
+      "version": "5.20.4",
+      "commands": [
+        "fake"
+      ]
     }
   }
 }

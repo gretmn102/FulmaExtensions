@@ -7,6 +7,7 @@
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
   </Target>
   <ItemGroup>
+    <Content Include="**\*.fsproj; **\*.fs; **\*.fsi; **\*.js;" Exclude="**\*.fs.js; obj; bin" PackagePath="fable\" />
     <Compile Include="Types.fs" />
     <Compile Include="InputWithSuggestions.fs" />
     <Compile Include="InputTags.fs" />
