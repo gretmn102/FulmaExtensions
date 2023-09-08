@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FulmaExtensions", "src\FulmaExtensions.fsproj", "{45FCA404-E9DB-48A7-8C26-36F0033B3580}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ExampleProject", "src\ExampleProject.fsproj", "{2229A6F9-103C-41C2-AE51-EBCD9B26A498}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45FCA404-E9DB-48A7-8C26-36F0033B3580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2229A6F9-103C-41C2-AE51-EBCD9B26A498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2229A6F9-103C-41C2-AE51-EBCD9B26A498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2229A6F9-103C-41C2-AE51-EBCD9B26A498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2229A6F9-103C-41C2-AE51-EBCD9B26A498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
